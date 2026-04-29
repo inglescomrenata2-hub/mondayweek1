@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 1 · Monday — Exercises</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F4EE;
+    --ink: #1A1814;
+    --ink-soft: #4A4640;
+    --ink-muted: #9A9690;
+    --teal: #1D7A62;
+    --teal-light: #E8F5F1;
+    --teal-mid: #5DBFA0;
+    --amber: #C4813A;
+    --amber-light: #FDF3E7;
+    --coral: #C94F3A;
+    --coral-light: #FDF0EE;
+    --violet: #5A4FCF;
+    --violet-light: #F0EFFC;
+    --border: #E2DDD5;
+    --shadow: 0 1px 3px rgba(26,24,20,0.06), 0 4px 16px rgba(26,24,20,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 3rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: rgba(29,122,98,0.18);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 10%;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(196,129,58,0.12);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal-mid);
+    border: 1px solid rgba(93,191,160,0.35);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--teal-mid);
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1.5rem;
+  }
+  .hero-pill {
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.08);
+    color: rgba(247,244,238,0.7);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ─── PROGRESS NAV ─── */
+  .progress-nav {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 2rem;
+  }
+  .progress-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .progress-inner::-webkit-scrollbar { display: none; }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--ink-muted);
+    white-space: nowrap;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    text-decoration: none;
+    position: relative;
+  }
+  .nav-item:hover { color: var(--ink); }
+  .nav-item.active { color: var(--teal); border-bottom-color: var(--teal); }
+  .nav-num {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--border);
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .nav-item.active .nav-num {
+    background: var(--teal);
+    color: white;
+  }
+  .nav-item.done .nav-num {
+    background: var(--teal-light);
+    color: var(--teal);
+  }
+
+  /* ─── MAIN LAYOUT ─── */
+  .main { max-width: 720px; margin: 0 auto; padding: 2.5rem 2rem 5rem; }
+
+  /* ─── EXERCISE CARD ─── */
+  .exercise {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    scroll-margin-top: 60px;
+  }
+  .exercise-header {
+    padding: 1.5rem 1.75rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .ex-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: white;
+    background: var(--ink);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .ex-header-text { flex: 1; }
+  .ex-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .ex-subtitle { font-size: 13px; color: var(--ink-muted); }
+  .ex-tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+  .tag-grammar { background: var(--teal-light); color: var(--teal); }
+  .tag-writing { background: var(--amber-light); color: var(--amber); }
+  .tag-speaking { background: var(--coral-light); color: var(--coral); }
+  .tag-vocab { background: var(--violet-light); color: var(--violet); }
+  .tag-listening { background: #EEF3FE; color: #3B5AC4; }
+
+  .exercise-body { padding: 1.5rem 1.75rem; }
+
+  /* ─── INSTRUCTION BOX ─── */
+  .instruction {
+    background: var(--cream);
+    border-left: 3px solid var(--ink);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .instruction strong { color: var(--ink); }
+
+  /* ─── ERROR CORRECTION ─── */
+  .sentence-list { list-style: none; counter-reset: sentence; }
+  .sentence-item {
+    counter-increment: sentence;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .sentence-item:last-child { border-bottom: none; }
+  .sentence-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-muted);
+    width: 20px;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+  .sentence-wrong {
+    font-family: 'DM Mono', monospace;
+    font-size: 13.5px;
+    flex: 1;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .sentence-wrong mark {
+    background: rgba(201,79,58,0.12);
+    color: var(--coral);
+    border-radius: 3px;
+    padding: 1px 3px;
+    font-weight: 500;
+  }
+  .answer-input {
+    margin-top: 6px;
+    width: 100%;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--ink);
+    resize: none;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .answer-input:focus { border-color: var(--teal); }
+  .sentence-col { flex: 1; }
+
+  /* ─── ANSWER REVEAL ─── */
+  .reveal-btn {
+    margin-top: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reveal-btn:hover { border-color: var(--teal); color: var(--teal); }
+  .reveal-btn svg { transition: transform 0.25s; }
+  .reveal-btn.open svg { transform: rotate(180deg); }
+  .answer-key {
+    display: none;
+    margin-top: 1rem;
+    background: var(--teal-light);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+  }
+  .answer-key.visible { display: block; animation: fadeIn 0.2s ease; }
+  .answer-key h4 {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--teal);
+    margin-bottom: 10px;
+  }
+  .answer-row {
+    display: flex;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(29,122,98,0.12);
+    font-size: 13.5px;
+  }
+  .answer-row:last-child { border-bottom: none; }
+  .answer-n { font-family: 'DM Mono', monospace; color: var(--teal); width: 18px; flex-shrink: 0; font-size: 12px; padding-top: 1px; }
+  .answer-correct { font-weight: 500; color: var(--ink); flex-shrink: 0; }
+  .answer-why { color: var(--ink-soft); font-size: 13px; }
+
+  /* ─── TABLE EXERCISE ─── */
+  .prompt-table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; }
+  .prompt-table th {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--ink-muted);
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+  }
+  .prompt-table td {
+    padding: 10px 12px;
+    font-size: 13.5px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .prompt-table tr:last-child td { border-bottom: none; }
+  .prompt-table td:first-child {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-muted);
+    width: 24px;
+  }
+  .prompt-table td:last-child {
+    font-size: 12px;
+    color: white;
+    font-family: 'DM Mono', monospace;
+  }
+  .tense-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .tense-simple { background: var(--teal); color: white; }
+  .tense-continuous { background: var(--amber); color: white; }
+  .text-answer {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--cream);
+    resize: vertical;
+    min-height: 44px;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-top: 4px;
+  }
+  .text-answer:focus { border-color: var(--teal); }
+
+  /* ─── BIO CHALLENGE ─── */
+  .bio-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media(max-width: 560px) { .bio-pair { grid-template-columns: 1fr; } }
+  .bio-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .bio-card-head {
+    padding: 12px 16px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .bio-a .bio-card-head { background: var(--teal-light); color: var(--teal); }
+  .bio-b .bio-card-head { background: var(--amber-light); color: var(--amber); }
+  .bio-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .bio-a .bio-dot { background: var(--teal); }
+  .bio-b .bio-dot { background: var(--amber); }
+  .bio-hint {
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-style: italic;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+  }
+  .bio-area {
+    width: 100%;
+    min-height: 120px;
+    border: none;
+    padding: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    resize: none;
+    outline: none;
+    line-height: 1.7;
+  }
+
+  /* ─── SHADOWING ─── */
+  .steps { display: flex; flex-direction: column; gap: 1rem; }
+  .step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-content { flex: 1; padding-top: 4px; }
+  .step-title { font-weight: 500; font-size: 14px; margin-bottom: 4px; }
+  .step-desc { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 8px; }
+  .step-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--teal);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(29,122,98,0.3);
+    padding-bottom: 1px;
+    transition: border-color 0.2s;
+  }
+  .step-link:hover { border-color: var(--teal); }
+  .shadow-inputs { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+  .shadow-row { display: flex; gap: 10px; align-items: center; }
+  .shadow-n { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink-muted); width: 16px; flex-shrink: 0; }
+
+  /* ─── CHECKLIST ─── */
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--cream);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+  }
+  .check-item:hover { background: #EDE9E1; }
+  .check-item.checked { background: var(--teal-light); }
+  .check-box {
+    width: 20px; height: 20px;
+    border: 1.5px solid var(--border);
+    border-radius: 5px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .check-item.checked .check-box {
+    background: var(--teal);
+    border-color: var(--teal);
+  }
+  .check-label { font-size: 14px; color: var(--ink-soft); }
+  .check-item.checked .check-label { color: var(--teal); text-decoration: line-through; text-decoration-color: rgba(29,122,98,0.4); }
+
+  /* ─── SPEAKING PROMPT ─── */
+  .speaking-prompt {
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .speaking-prompt::before {
+    content: '"';
+    font-family: 'DM Serif Display', serif;
+    font-size: 120px;
+    color: rgba(255,255,255,0.04);
+    position: absolute;
+    top: -20px; left: 16px;
+    line-height: 1;
+  }
+  .speaking-prompt p {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+  .speaking-rules {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 1.25rem;
+  }
+  .rule-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .rule-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); margin-top: 7px; flex-shrink: 0; }
+  .word-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .word-chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--teal-light);
+    color: var(--teal);
+    border: 1px solid rgba(29,122,98,0.2);
+  }
+
+  /* ─── VOCAB TABLE ─── */
+  .vocab-table { width: 100%; border-collapse: collapse; }
+  .vocab-table th {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--ink-muted);
+    padding: 8px 14px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+  }
+  .vocab-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    vertical-align: top;
+  }
+  .vocab-table tr:last-child td { border-bottom: none; }
+  .vocab-table tr:hover td { background: var(--cream); }
+  .vocab-word { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--teal); }
+  .vocab-meaning { color: var(--ink-soft); font-size: 13px; }
+  .vocab-example { font-style: italic; color: var(--ink-muted); font-size: 13px; }
+  .vocab-own {
+    margin-top: 1.5rem;
+    background: var(--violet-light);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+  }
+  .vocab-own h4 {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--violet);
+    margin-bottom: 10px;
+  }
+  .own-rows { display: flex; flex-direction: column; gap: 8px; }
+  .own-row { display: flex; gap: 10px; align-items: center; }
+  .own-n { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--violet); width: 18px; }
+
+  /* ─── SECTION DIVIDER ─── */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 2.5rem 0 1.25rem;
+  }
+  .section-title span {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    white-space: nowrap;
+  }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+  .exercise { animation: fadeIn 0.3s ease both; }
+  .exercise:nth-child(2) { animation-delay: 0.05s; }
+  .exercise:nth-child(3) { animation-delay: 0.1s; }
+  .exercise:nth-child(4) { animation-delay: 0.15s; }
+  .exercise:nth-child(5) { animation-delay: 0.2s; }
+  .exercise:nth-child(6) { animation-delay: 0.25s; }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Week 1 · Monday</div>
+    <h1>Present Simple<br><em>&amp; Continuous</em></h1>
+    <p style="color:rgba(247,244,238,0.6); font-size:14px; max-width:440px;">5 exercises to train your grammar, vocabulary, speaking, and writing — with real context from your life.</p>
+    <div class="hero-meta">
+      <span class="hero-pill">5 exercises</span>
+      <span class="hero-pill">20–30 min</span>
+      <span class="hero-pill">B1 → B2</span>
+      <span class="hero-pill">Grammar · Writing · Speaking</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS NAV -->
+<nav class="progress-nav">
+  <div class="progress-inner">
+    <a href="#ex1" class="nav-item active" id="nav1">
+      <span class="nav-num">1</span> Error Correction
+    </a>
+    <a href="#ex2" class="nav-item" id="nav2">
+      <span class="nav-num">2</span> Real Life
+    </a>
+    <a href="#ex3" class="nav-item" id="nav3">
+      <span class="nav-num">3</span> Bio Challenge
+    </a>
+    <a href="#ex4" class="nav-item" id="nav4">
+      <span class="nav-num">4</span> Shadowing
+    </a>
+    <a href="#ex5" class="nav-item" id="nav5">
+      <span class="nav-num">5</span> Speaking Sprint
+    </a>
+    <a href="#vocab" class="nav-item" id="nav6">
+      <span class="nav-num">V</span> Vocabulary
+    </a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- ─── EXERCISE 1 ─── -->
+  <div class="exercise" id="ex1">
+    <div class="exercise-header">
+      <div class="ex-number">1</div>
+      <div class="ex-header-text">
+        <div class="ex-title">Error Correction</div>
+        <div class="ex-subtitle">Find the mistake — then explain why it's wrong</div>
+      </div>
+      <span class="ex-tag tag-grammar">Grammar</span>
+    </div>
+    <div class="exercise-body">
+      <div class="instruction">
+        Each sentence has one error. <strong>Correct it</strong> and write a one-word reason: <em>stative</em>, <em>habit</em>, or <em>tense</em>.
+      </div>
+
+      <ul class="sentence-list">
+        <li class="sentence-item">
+          <span class="sentence-num">1.</span>
+          <div class="sentence-col">
+            <div class="sentence-wrong">Right now, I am <mark>knowing</mark> the answer.</div>
+            <textarea class="answer-input" rows="1" placeholder="Correction + reason…"></textarea>
+          </div>
+        </li>
+        <li class="sentence-item">
+          <span class="sentence-num">2.</span>
+          <div class="sentence-col">
+            <div class="sentence-wrong">She <mark>work</mark> at a music school every Monday.</div>
+            <textarea class="answer-input" rows="1" placeholder="Correction + reason…"></textarea>
+          </div>
+        </li>
+        <li class="sentence-item">
+          <span class="sentence-num">3.</span>
+          <div class="sentence-col">
+            <div class="sentence-wrong">They <mark>are usually going</mark> to the studio on weekends.</div>
+            <textarea class="answer-input" rows="1" placeholder="Correction + reason…"></textarea>
+          </div>
+        </li>
+        <li class="sentence-item">
+          <span class="sentence-num">4.</span>
+          <div class="sentence-col">
+            <div class="sentence-wrong">I <mark>am wanting</mark> a coffee right now.</div>
+            <textarea class="answer-input" rows="1" placeholder="Correction + reason…"></textarea>
+          </div>
+        </li>
+        <li class="sentence-item">
+          <span class="sentence-num">5.</span>
+          <div class="sentence-col">
+            <div class="sentence-wrong">Look! The producer <mark>is record</mark> the final track.</div>
+            <textarea class="answer-input" rows="1" placeholder="Correction + reason…"></textarea>
+          </div>
+        </li>
+        <li class="sentence-item">
+          <span class="sentence-num">6.</span>
+          <div class="sentence-col">
+            <div class="sentence-wrong">I <mark>always am checking</mark> my emails in the morning.</div>
+            <textarea class="answer-input" rows="1" placeholder="Correction + reason…"></textarea>
+          </div>
+        </li>
+        <li class="sentence-item">
+          <span class="sentence-num">7.</span>
+          <div class="sentence-col">
+            <div class="sentence-wrong">We <mark>are having</mark> a team meeting every Tuesday.</div>
+            <textarea class="answer-input" rows="1" placeholder="Correction + reason…"></textarea>
+          </div>
+        </li>
+        <li class="sentence-item">
+          <span class="sentence-num">8.</span>
+          <div class="sentence-col">
+            <div class="sentence-wrong">He <mark>studies</mark> English since 2019.</div>
+            <textarea class="answer-input" rows="1" placeholder="Correction + reason…"></textarea>
+          </div>
+        </li>
+      </ul>
+
+      <button class="reveal-btn" onclick="toggleAnswers(this)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Show answer key
+      </button>
+
+      <div class="answer-key" id="key1">
+        <h4>Answer Key</h4>
+        <div class="answer-row"><span class="answer-n">1</span><span class="answer-correct">know</span><span class="answer-why">— stative verb, cannot be continuous</span></div>
+        <div class="answer-row"><span class="answer-n">2</span><span class="answer-correct">works</span><span class="answer-why">— habit + 3rd person singular = Simple</span></div>
+        <div class="answer-row"><span class="answer-n">3</span><span class="answer-correct">usually go</span><span class="answer-why">— frequency adverb + routine = Simple</span></div>
+        <div class="answer-row"><span class="answer-n">4</span><span class="answer-correct">want</span><span class="answer-why">— stative verb, no continuous form</span></div>
+        <div class="answer-row"><span class="answer-n">5</span><span class="answer-correct">is recording</span><span class="answer-why">— action in progress = Continuous (spelling error only)</span></div>
+        <div class="answer-row"><span class="answer-n">6</span><span class="answer-correct">always check</span><span class="answer-why">— adverb of frequency goes between subject + verb</span></div>
+        <div class="answer-row"><span class="answer-n">7</span><span class="answer-correct">have</span><span class="answer-why">— scheduled/stative "have" = Simple</span></div>
+        <div class="answer-row"><span class="answer-n">8</span><span class="answer-correct">has been studying</span><span class="answer-why">— duration from past to now = Present Perfect Continuous</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── EXERCISE 2 ─── -->
+  <div class="exercise" id="ex2">
+    <div class="exercise-header">
+      <div class="ex-number">2</div>
+      <div class="ex-header-text">
+        <div class="ex-title">Real Life Sentences</div>
+        <div class="ex-subtitle">Write about your actual routine — not a fictional one</div>
+      </div>
+      <span class="ex-tag tag-writing">Writing</span>
+    </div>
+    <div class="exercise-body">
+      <div class="instruction">
+        Answer each prompt with a <strong>full sentence about your real life</strong>. The tense is indicated — use it correctly. Be specific: not <em>"I work"</em> but <em>"I teach English online on Tuesday mornings."</em>
+      </div>
+
+      <table class="prompt-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Prompt</th>
+            <th>Tense</th>
+          </tr>
+        </thead>
+        <tbody id="prompt-rows">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ─── EXERCISE 3 ─── -->
+  <div class="exercise" id="ex3">
+    <div class="exercise-header">
+      <div class="ex-number">3</div>
+      <div class="ex-header-text">
+        <div class="ex-title">Instagram Bio Challenge</div>
+        <div class="ex-subtitle">Write both versions of your professional bio in English</div>
+      </div>
+      <span class="ex-tag tag-writing">Writing</span>
+    </div>
+    <div class="exercise-body">
+      <div class="instruction">
+        <strong>Bio A</strong> uses Present Simple — your identity and habits.<br>
+        <strong>Bio B</strong> uses Present Continuous — what you're building right now.<br>
+        Minimum 4 sentences each. Write like you'd actually post it.
+      </div>
+
+      <div class="bio-pair">
+        <div class="bio-card bio-a">
+          <div class="bio-card-head">
+            <div class="bio-dot"></div>
+            Bio A — Present Simple
+          </div>
+          <div class="bio-hint">Who you are, what you do, your habits and routines.</div>
+          <textarea class="bio-area" placeholder="I teach English online…&#10;I also produce music and…&#10;Every week I…"></textarea>
+        </div>
+        <div class="bio-card bio-b">
+          <div class="bio-card-head">
+            <div class="bio-dot"></div>
+            Bio B — Present Continuous
+          </div>
+          <div class="bio-hint">What you're currently building, developing or changing.</div>
+          <textarea class="bio-area" placeholder="I'm currently developing…&#10;I'm working on…&#10;Right now I'm building…"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── EXERCISE 4 ─── -->
+  <div class="exercise" id="ex4">
+    <div class="exercise-header">
+      <div class="ex-number">4</div>
+      <div class="ex-header-text">
+        <div class="ex-title">Shadowing Sprint</div>
+        <div class="ex-subtitle">Listen → Read → Repeat → Record</div>
+      </div>
+      <span class="ex-tag tag-listening">Listening</span>
+    </div>
+    <div class="exercise-body">
+      <div class="instruction">
+        Shadowing trains your ear, pronunciation, and grammar at the same time. Don't skip steps — the sequence matters.
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Listen without reading</div>
+            <div class="step-desc">Go to BBC 6 Minute English and choose any recent episode. Listen once — no transcript, no subtitles. Focus on rhythm and natural speech patterns.</div>
+            <a href="https://www.bbc.co.uk/learningenglish/english/features/6-minute-english" target="_blank" class="step-link">
+              BBC 6 Minute English
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Find 5 sentences</div>
+            <div class="step-desc">Open the transcript. Find and write 5 sentences using Present Simple or Present Continuous.</div>
+            <div class="shadow-inputs">
+              <div class="shadow-row"><span class="shadow-n">1.</span><input class="answer-input" style="margin-top:0" placeholder="Sentence from transcript…"></div>
+              <div class="shadow-row"><span class="shadow-n">2.</span><input class="answer-input" style="margin-top:0" placeholder="Sentence from transcript…"></div>
+              <div class="shadow-row"><span class="shadow-n">3.</span><input class="answer-input" style="margin-top:0" placeholder="Sentence from transcript…"></div>
+              <div class="shadow-row"><span class="shadow-n">4.</span><input class="answer-input" style="margin-top:0" placeholder="Sentence from transcript…"></div>
+              <div class="shadow-row"><span class="shadow-n">5.</span><input class="answer-input" style="margin-top:0" placeholder="Sentence from transcript…"></div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Shadow out loud</div>
+            <div class="step-desc">Play the audio. Repeat each sentence simultaneously — match the speaker's speed, intonation, and rhythm exactly. Do this 3x per sentence.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Record yourself solo</div>
+            <div class="step-desc">Say those 5 sentences without the audio. Listen back and check:</div>
+            <ul class="checklist" style="margin-top:10px;" id="shadow-checks">
+              <li class="check-item" onclick="toggleCheck(this)">
+                <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <span class="check-label">Pronunciation matched the speaker</span>
+              </li>
+              <li class="check-item" onclick="toggleCheck(this)">
+                <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <span class="check-label">Correct tense form in each sentence</span>
+              </li>
+              <li class="check-item" onclick="toggleCheck(this)">
+                <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <span class="check-label">Natural rhythm and intonation</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── EXERCISE 5 ─── -->
+  <div class="exercise" id="ex5">
+    <div class="exercise-header">
+      <div class="ex-number">5</div>
+      <div class="ex-header-text">
+        <div class="ex-title">Speaking Sprint</div>
+        <div class="ex-subtitle">2 minutes · Record yourself · No stopping to translate</div>
+      </div>
+      <span class="ex-tag tag-speaking">Speaking</span>
+    </div>
+    <div class="exercise-body">
+      <div class="speaking-prompt">
+        <p>"Describe your typical Monday — what do you usually do, and what's different about this Monday specifically?"</p>
+      </div>
+
+      <div class="speaking-rules">
+        <div class="rule-item"><div class="rule-dot"></div><span>Use <strong>Present Simple</strong> for your regular routine</span></div>
+        <div class="rule-item"><div class="rule-dot"></div><span>Use <strong>Present Continuous</strong> for what's different today</span></div>
+        <div class="rule-item"><div class="rule-dot"></div><span>Use at least 3 of these words:</span></div>
+      </div>
+      <div class="word-chips">
+        <span class="word-chip">usually</span>
+        <span class="word-chip">always</span>
+        <span class="word-chip">right now</span>
+        <span class="word-chip">at the moment</span>
+        <span class="word-chip">currently</span>
+        <span class="word-chip">never</span>
+        <span class="word-chip">sometimes</span>
+        <span class="word-chip">today</span>
+      </div>
+
+      <div class="instruction" style="margin-top: 1.25rem;">
+        No pausing to translate. If you don't know a word, <strong>describe it differently</strong> and keep going.
+      </div>
+
+      <h4 style="font-size:12px; font-family:'DM Mono',monospace; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-muted); margin-bottom:10px;">Self-check after recording</h4>
+      <ul class="checklist" id="speaking-checks">
+        <li class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="check-label">Used Present Simple for habits and routine</span>
+        </li>
+        <li class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="check-label">Used Present Continuous for what's happening now</span>
+        </li>
+        <li class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="check-label">Used at least 3 time/frequency words from the list</span>
+        </li>
+        <li class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="check-label">Spoke for 2 full minutes without stopping</span>
+        </li>
+        <li class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="check-label">Did not pause to translate into Portuguese</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ─── VOCAB ─── -->
+  <div class="section-title">
+    <span>Vocabulary</span>
+    <div class="section-line"></div>
+    <span>Activate today</span>
+  </div>
+
+  <div class="exercise" id="vocab">
+    <div class="exercise-header">
+      <div class="ex-number" style="background:var(--violet);">V</div>
+      <div class="ex-header-text">
+        <div class="ex-title">Words to Activate Today</div>
+        <div class="ex-subtitle">Don't just read — use each one before you finish</div>
+      </div>
+      <span class="ex-tag tag-vocab">Vocab</span>
+    </div>
+    <div class="exercise-body">
+      <table class="vocab-table">
+        <thead>
+          <tr>
+            <th>Word / Expression</th>
+            <th>Meaning</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="vocab-word">currently</span></td>
+            <td><span class="vocab-meaning">right now, in this period</span></td>
+            <td><span class="vocab-example">I'm currently developing a new course.</span></td>
+          </tr>
+          <tr>
+            <td><span class="vocab-word">tend to</span></td>
+            <td><span class="vocab-meaning">have a habit of</span></td>
+            <td><span class="vocab-example">I tend to check emails first thing in the morning.</span></td>
+          </tr>
+          <tr>
+            <td><span class="vocab-word">on a regular basis</span></td>
+            <td><span class="vocab-meaning">regularly, frequently</span></td>
+            <td><span class="vocab-example">I record content on a regular basis.</span></td>
+          </tr>
+          <tr>
+            <td><span class="vocab-word">at the moment</span></td>
+            <td><span class="vocab-meaning">right now (temporary)</span></td>
+            <td><span class="vocab-example">I'm not taking new students at the moment.</span></td>
+          </tr>
+          <tr>
+            <td><span class="vocab-word">be in the middle of</span></td>
+            <td><span class="vocab-meaning">currently doing something</span></td>
+            <td><span class="vocab-example">I'm in the middle of producing a new track.</span></td>
+          </tr>
+          <tr>
+            <td><span class="vocab-word">make a habit of</span></td>
+            <td><span class="vocab-meaning">do something intentionally, as a routine</span></td>
+            <td><span class="vocab-example">I make a habit of practicing English every day.</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="vocab-own">
+        <h4>Your turn — write 3 original sentences using words from the table</h4>
+        <div class="own-rows">
+          <div class="own-row"><span class="own-n">1.</span><input class="answer-input" style="margin-top:0;" placeholder="Your sentence…"></div>
+          <div class="own-row"><span class="own-n">2.</span><input class="answer-input" style="margin-top:0;" placeholder="Your sentence…"></div>
+          <div class="own-row"><span class="own-n">3.</span><input class="answer-input" style="margin-top:0;" placeholder="Your sentence…"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div class="footer">English Pocket Planner · Week 1 · Monday · Present Simple & Continuous</div>
+
+<script>
+  // Populate prompt table
+  const prompts = [
+    ["What do you do every morning before work?", "simple"],
+    ["What are you working on this week?", "continuous"],
+    ["What do you always do after finishing a class?", "simple"],
+    ["What project are you currently developing?", "continuous"],
+    ["What do you never do on Sundays?", "simple"],
+    ["What new skill are you learning right now?", "continuous"],
+    ["How often do you work on music production?", "simple"],
+    ["What habit are you trying to build this month?", "continuous"],
+  ];
+
+  const tbody = document.getElementById('prompt-rows');
+  prompts.forEach(([q, t], i) => {
+    const label = t === 'simple'
+      ? '<span class="tense-badge tense-simple">Simple</span>'
+      : '<span class="tense-badge tense-continuous">Continuous</span>';
+    tbody.innerHTML += `
+      <tr>
+        <td>${i+1}</td>
+        <td>
+          <div style="font-size:13.5px; margin-bottom:6px; color:var(--ink-soft)">${q}</div>
+          <textarea class="text-answer" rows="1" placeholder="Write your answer here…"></textarea>
+        </td>
+        <td>${label}</td>
+      </tr>`;
+  });
+
+  // Auto-resize textareas
+  document.querySelectorAll('textarea').forEach(ta => {
+    ta.addEventListener('input', () => {
+      ta.style.height = 'auto';
+      ta.style.height = ta.scrollHeight + 'px';
+    });
+  });
+
+  // Toggle answer key
+  function toggleAnswers(btn) {
+    const key = document.getElementById('key1');
+    const isOpen = key.classList.contains('visible');
+    key.classList.toggle('visible');
+    btn.classList.toggle('open');
+    btn.querySelector('span') && null;
+    btn.childNodes[1].textContent = isOpen ? ' Show answer key' : ' Hide answer key';
+  }
+
+  // Toggle checklist items
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+  }
+
+  // Active nav on scroll
+  const sections = ['ex1','ex2','ex3','ex4','ex5','vocab'];
+  const navIds   = ['nav1','nav2','nav3','nav4','nav5','nav6'];
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const idx = sections.indexOf(e.target.id);
+        if (idx > -1) {
+          navIds.forEach((n,i) => {
+            document.getElementById(n).classList.toggle('active', i === idx);
+          });
+        }
+      }
+    });
+  }, { threshold: 0.3, rootMargin: '-60px 0px -50% 0px' });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
+</body>
+</html>
